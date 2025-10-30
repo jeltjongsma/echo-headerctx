@@ -6,7 +6,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-type HeaderCtxKey string
+type headerCtxKey string
 
 // InjectHeaders is a middleware that injects the given headers into echo.Context and context.Context.
 // A boolean 'require' dictates whether all headers need to be present for request to continue.
@@ -19,7 +19,7 @@ func InjectHeaders(require bool, headers ...string) echo.MiddlewareFunc {
 			for _, key := range headers {
 				if value := req.Header.Get(key); value != "" {
 					c.Set(key, value)
-					ctx = context.WithValue(ctx, HeaderCtxKey(key), value)
+					ctx = context.WithValue(ctx, headerCtxKey(key), value)
 					continue
 				}
 				// return 500 Internal server error if headers are required, but not present
@@ -31,4 +31,14 @@ func InjectHeaders(require bool, headers ...string) echo.MiddlewareFunc {
 			return next(c)
 		}
 	}
+}
+
+// FromEcho retrieves a header's value from echo.Context.
+func FromEcho(c echo.Context, header string) any {
+	return c.Get(header)
+}
+
+// FromCtx retrieves a header's value from context.Context.
+func FromCtx(ctx context.Context, header string) any {
+	return ctx.Value(headerCtxKey(header))
 }

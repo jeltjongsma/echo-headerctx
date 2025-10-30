@@ -40,11 +40,11 @@ func Test_NotRequire(t *testing.T) {
 	// check context.Context
 	ctx := c.Request().Context()
 
-	if val := ctx.Value(HeaderCtxKey("header-a")); val != "value-a" {
+	if val := ctx.Value(headerCtxKey("header-a")); val != "value-a" {
 		t.Errorf("expected value-a, got %s", val)
 	}
 
-	if val := ctx.Value(HeaderCtxKey("header-b")); val != nil {
+	if val := ctx.Value(headerCtxKey("header-b")); val != nil {
 		t.Errorf("expected nil, got %s", val)
 	}
 }
@@ -79,11 +79,11 @@ func Test_Require(t *testing.T) {
 	// check context.Context
 	ctx := c.Request().Context()
 
-	if val := ctx.Value(HeaderCtxKey("header-a")); val != "value-a" {
+	if val := ctx.Value(headerCtxKey("header-a")); val != "value-a" {
 		t.Errorf("expected value-a, got %s", val)
 	}
 
-	if val := ctx.Value(HeaderCtxKey("header-b")); val != "value-b" {
+	if val := ctx.Value(headerCtxKey("header-b")); val != "value-b" {
 		t.Errorf("expected value-b, got %s", val)
 	}
 }
